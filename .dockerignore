@@ -1,0 +1,5 @@
+*.puml
+.idea/
+.gradle/
+**/build/
+**/out/

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>PP2 Urlaub Übersicht</title>
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" rel="stylesheet">
+</head>
+
+<body>
+<header class="container">
+    <h1>Übersicht: Freistellungen</h1>
+</header>
+
+<nav>
+    <div class="text-center pt-5">
+
+        <button class="btn btn-primary" style="margin-right: 1rem">
+            <a name="urlaub-belegen-a" aria-label="Link zur Urlaubsbelegung" href="/urlaubbelegen" style="text-decoration: none; color: white">Urlaub belegen</a>
+        </button>
+        <button class="btn btn-primary" style="margin-left: 1rem">
+            <a name="klausur-belegen-a" aria-label="Link zur Klausurbelegung" href="/klausurbelegen" style="text-decoration: none; color: white">Klausur belegen</a>
+        </button>
+    </div>
+</nav>
+<main>
+<div class="container">
+
+
+    <h2>Urlaubszeiten</h2>
+    <table class="table mb-5" id="urlaub_table" name="urlaub_table">
+        <thead>
+        <tr>
+            <th>Datum</th>
+            <th>von</th>
+            <th>bis</th>
+            <th aria-label="Zeit in Minuten">Zeit (in Minuten)</th>
+            <th aria-hidden="true"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="urlaub: ${details.student.getUrlaube()}">
+            <td th:text="${urlaub.getDatum()}">07.03.2022</td>
+            <td th:text="${urlaub.getStartUhrzeit()}"> 9:30</td>
+            <td th:text="${urlaub.getEndUhrzeit()}"> 13:30</td>
+            <td th:text="${urlaub.dauerInMinuten()}">240</td>
+            <td>
+                <form method="post" th:action="@{/urlaubstornieren}" th:object="${urlaubDto}" name="urlaubStornieren">
+                    <input id="urlaubsDatum" name="urlaubsDatum" th:attr="value = ${urlaub.getDatum()}" type="hidden">
+                    <input id="urlaubsStart" name="urlaubsStart" th:attr="value = ${urlaub.getStartUhrzeit()}"
+                           type="hidden">
+                    <input id="urlaubsEnde" name="urlaubsEnde" th:attr="value = ${urlaub.getEndUhrzeit()}"
+                           type="hidden">
+                    <input class="btn btn-dark btn-sm" th:name="'storniere ' + ${urlaub}" type="submit" value="Stornieren">
+                </form>
+            </td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+            <td aria-colspan="3" colspan="3" aria-label="Summe vom gebuchten Urlaub in Minuten"><strong>Summe</strong></td>
+            <td aria-colspan="2" colspan="2"><strong th:text="${details.student.berechneBeantragtenUrlaub()}">0</strong></td>
+        </tr>
+        <tr>
+            <td aria-colspan="3" colspan="3" aria-label="Summe vom noch verfügbarem Resturlaub in Minuten"><strong>Resturlaub</strong></td>
+            <td aria-colspan="2" colspan="2"><strong th:text="${details.student.berechneRestUrlaub()}">240</strong></td>
+        </tr>
+        </tfoot>
+    </table>
+    <h2 id="klausur">Klausuren</h2>
+    <div th:if="${details.klausuren().isEmpty()}">
+        <p class="alert alert-warning" name="keineKlausur"><span style="color: black">Sie sind für keine Klausuren
+            angemeldet.</span></p>
+    </div>
+
+    <div th:if="${!details.klausuren().isEmpty()}">
+        <table class="table mb-5" name="klausur_table">
+            <thead>
+            <tr>
+                <th>Veranstaltungsname</th>
+                <th>Klausurzeitraum</th>
+                <th>Freistellung vom Praktikum</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="klausur: ${details.klausuren()}">
+                <td th:text="${klausur.veranstaltungsName()}"> Propra</td>
+                <td th:text="${klausur.klausurZeitraum().toString()}">21.03.2022</td>
+                <td th:text="${klausur.freistellungsZeitraum().toString()}"> 09:30 - 11:00 Uhr</td>
+                <td>
+                    <form method="post" th:action="@{/klausurstornieren}">
+                        <input name="veranstaltungsId" th:value="${klausur.getVeranstaltungsId()}" type="hidden">
+                        <input name="handle" th:value="${details.student.getGithubHandle()}" type="hidden">
+                        <input class="btn btn-dark btn-sm" type="submit" th:name="'storniere ' + ${klausur.getVeranstaltungsId()}" value="Stornieren">
+
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</main>
+
+
+
+    <div th:if="${!fehler.isEmpty()}">
+        <p class="alert alert-warning" th:text="${fehler}"> <span style="color: black">Etwas ist schiefgelaufen</span></p>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,60 @@
+plugins {
+    id 'com.github.spotbugs' version '5.0.6' apply false
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'checkstyle'
+    apply plugin: 'com.github.spotbugs'
+
+    group = 'de.hhu.propra'
+    version = '0.0.1-SNAPSHOT'
+    sourceCompatibility = '17'
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        compileOnly "com.github.spotbugs:spotbugs-annotations:${spotbugs.toolVersion.get()}"
+    }
+
+    spotbugs {
+        toolVersion = "4.6.0"
+        effort = "max"
+        excludeFilter = file("$rootDir/config/spotbugs/excludeFilter.xml")
+    }
+
+    spotbugsTest.enabled = false
+
+    tasks.withType(com.github.spotbugs.snom.SpotBugsTask) {
+        reports {
+            xml.required = false
+            html.required = true
+        }
+    }
+
+    checkstyle {
+        toolVersion = "10.0"
+        ignoreFailures = false
+        maxWarnings = 0
+    }
+
+    tasks.withType(Checkstyle) {
+        reports {
+            xml.required = false
+            html.required = true
+        }
+    }
+
+    tasks.named('test') {
+        useJUnitPlatform()
+    }
+
+    tasks.withType(JavaCompile) {
+        options.encoding = 'UTF-8'
+    }
+    tasks.withType(Test) {
+        systemProperty 'file.encoding', 'UTF-8'
+    }
+}

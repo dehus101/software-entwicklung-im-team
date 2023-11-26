@@ -1,0 +1,34 @@
+plugins {
+    id 'org.springframework.boot' version '2.6.4'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+}
+
+dependencies {
+    implementation project(':chicken_domain')
+    implementation project(':chicken_application')
+
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation 'com.tngtech.archunit:archunit-junit5-engine:0.22.0'
+    testImplementation 'net.sourceforge.htmlunit:htmlunit:2.58.0'
+    // downgraded because of https://github.com/HtmlUnit/htmlunit/issues/457
+}
+
+bootJar {
+    enabled = false
+}
+
+bootRun {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}

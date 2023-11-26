@@ -1,0 +1,27 @@
+rollen:
+  tutoren: xyz
+  organisatoren: xyz, abc
+
+praktikumszeitraum:
+  praktikumsstart: 2022-03-07
+  praktikumsende: 2022-03-25
+
+spring:
+  flyway:
+    schemas: chicken
+    create-schemas: true
+    url: jdbc:h2:mem:db;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;CASE_INSENSITIVE_IDENTIFIERS=TRUE
+    user: sa
+    password: sa
+    enabled: false
+  datasource:
+    url: jdbc:h2:mem:db;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;CASE_INSENSITIVE_IDENTIFIERS=TRUE
+    username: sa
+    password: sa
+  test:
+    database:
+      replace: none
+  sql:
+    init:
+      schema-locations: classpath:db/migration/V1__tabelle_erstellen.sql
+      mode: always

@@ -1,0 +1,7 @@
+build/
+.idea/
+.gradle/
+out/
+.env
+urlaub-logs.csv
+Dokumentation/.obsidian/

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Neue Klausur eintragen</title>
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+
+    <header>
+        <h1>Neue Klausur eintragen</h1>
+    </header>
+
+    <nav style="margin-bottom: 1rem">
+        <button class="btn btn-primary" style="margin-right: 1rem">
+            <a aria-label="Zurückgehen zur Klausurbelegung" href="/klausurbelegen"
+               style="text-decoration: none; color: white">Zurück zur Klausurbelegung</a>
+        </button>
+        <button class="btn btn-primary" style="margin-left: 1rem">
+            <a aria-label="Zurückgehen zur Übersicht" href="/" style="text-decoration: none; color: white">Zurück zur
+                Übersicht</a>
+        </button>
+    </nav>
+
+    <main>
+        <form method="post" name="klausurform" th:action="@{/klausuranmelden}" th:object="${klausurDto}">
+
+            <div class="form-floating mb-3">
+                <input class="form-control" id="veranstaltung" name="veranstaltungsName"
+                       th:field="*{veranstaltungsName}"
+                       type="text">
+                <label for="veranstaltung">Name der Veranstaltung</label>
+                <div class="alert alert-warning" style="color: black"
+                     th:errors="*{veranstaltungsName}" th:if="${#fields.hasErrors('veranstaltungsName')}"></div>
+            </div>
+
+
+            <div class="form-floating mb-3">
+                <input class="form-control" id="lsfId" name="veranstaltungsId" th:field="*{veranstaltungsId}"
+                       type="text">
+                <label class="form-label" for="lsfId">ID der Veranstaltung im LSF</label>
+                <div class="alert alert-warning" style="color: black"
+                     th:errors="*{veranstaltungsId}" th:if="${#fields.hasErrors('veranstaltungsId')}"></div>
+                <div class="form-text">
+                    <p style="color: black">Sie finden die LSF Veranstaltungs-ID im folgenden Link.</p>
+                    <button class="btn btn-primary btn-sm" type="button">
+                        <a aria-label="Link zum LSF"
+                           href="https://lsf.hhu.de/qisserver/rds?state=wtree&search=1&category=veranstaltung.browse&navigationPosition=lectures%2Clectureindex&breadcrumb=lectureindex&topitem=lectures&subitem=lectureindex"
+                           style="text-decoration: none; color: white" target="_blank">Link zum LSF</a>
+                    </button>
+                </div>
+            </div>
+            <div class="form-check">
+                <input checked="checked" class="form-check-input" id="praesenz" name="praesenz" th:field="*{praesenz}"
+                       type="checkbox">
+                <label class="form-check-label" for="praesenz">
+                    Die Klausur findet in Präsenz statt.
+                </label>
+                <div class="alert alert-warning" style="color: black"
+                     th:errors="*{praesenz}" th:if="${#fields.hasErrors('praesenz')}"></div>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input class="form-control" id="tag" name="klausurdatum" th:field="*{klausurdatum}" type="date">
+                <label class="form-label" for="tag">Datum der Klausur (dd.mm.yyyy)</label>
+                <div class="alert alert-warning" style="color: black"
+                     th:errors="*{klausurdatum}" th:if="${#fields.hasErrors('klausurdatum')}"></div>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input class="form-control" id="von" name="klausurstart" th:field="*{klausurstart}" type="time">
+                <label for="von">Klausurbeginn (hh:mm)</label>
+                <div class="alert alert-warning" style="color: black"
+                     th:errors="*{klausurstart}" th:if="${#fields.hasErrors('klausurstart')}"></div>
+                <div class="form-text" style="color: black">Runden Sie die Startzeit auf die nächste vorgegebene Zeit
+                    ab. Falls die Klausur vor
+                    09:30 Uhr beginnt, tragen Sie bitte 09:30 Uhr ein.
+                </div>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input class="form-control" id="bis" name="klausurende" th:field="*{klausurende}" type="time">
+                <label class="form-label" for="bis">Klausurende (hh:mm)</label>
+                <div class="alert alert-warning" style="color: black"
+                     th:errors="*{klausurende}" th:if="${#fields.hasErrors('klausurende')}"></div>
+                <div class="form-text" style="color: black">Runden Sie die Zeit auf die nächste vorgegebene Zeit auf.
+                    Falls die Klausur nach
+                    13:30 Uhr endet, tragen Sie bitte 13:30 Uhr ein.
+                </div>
+
+            </div>
+
+            <input class="btn btn-primary" name="klausurSpeichern" type="submit" value="Speichern">
+        </form>
+        <div th:if="${!fehler.isEmpty()}">
+            <p class="alert alert-warning" style="color: black" th:text="${fehler}">
+                <span>Etwas ist schiefgelaufen</span>
+            </p>
+        </div>
+    </main>
+</div>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Urlaub belegen</title>
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>Urlaub belegen</h1>
+        <p>Hier muss der gewünschte Urlaub angegeben werden im Format Datum, Startuhrzeit und
+            Enduhrzeit</p>
+    </header>
+
+    <nav>
+        <a href="/">
+            <button aria-label="Zurückgehen zur Übersicht" class="btn btn-primary">Zurück zur Übersicht</button>
+        </a>
+    </nav>
+
+    <div class="formular mt-3">
+        <form class="mt-3" method="post" name="urlaub_anmelden" th:action="@{/urlaubbelegen}" th:object="${urlaubDto}">
+            <div class="form-floating mb-3">
+                <input aria-label="Urlaubsdatum" class="form-control" id="urlaubdatum" name="urlaubsDatum" required
+                       th:field="*{urlaubsDatum}" type="date">
+                <label class="form-label" for="urlaubdatum">Datum (dd.mm.yyyy)</label>
+                <div class="alert alert-warning" th:errors="*{urlaubsDatum}"
+                     th:if="${#fields.hasErrors('urlaubsDatum')}"></div>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input aria-label="Startuhrzeit des Urlaubs" class="form-control" id="urlaubstart" name="urlaubsStart"
+                       required
+                       th:field="*{urlaubsStart}" type="time">
+                <label for="urlaubstart">Start (hh:mm)</label>
+                <div class="alert alert-warning" th:errors="*{urlaubsStart}"
+                     th:if="${#fields.hasErrors('urlaubsStart')}"></div>
+                <div class="form-text">Tragen Sie hier die Uhrzeit ein, wann Sie Ihren Urlaub beginnen wollen.</div>
+
+            </div>
+            <div class="form-floating mb-3">
+                <input aria-label="Enduhrzeit des Urlaubs" class="form-control" id="urlaubende" name="urlaubsEnde"
+                       required
+                       th:field="*{urlaubsEnde}" type="time">
+                <label class="form-label" for="urlaubende">Ende (hh:mm)</label>
+                <div class="alert alert-warning" th:errors="*{urlaubsEnde}"
+                     th:if="${#fields.hasErrors('urlaubsEnde')}"></div>
+            </div>
+
+            <input class="btn btn-primary" name="abschicken" type="submit" value="Eintragen"/>
+
+        </form>
+        <div th:if="${!fehler.isEmpty()}">
+            <p class="alert alert-warning" style="color: black" th:text="${fehler}">
+                <span>Etwas ist schiefgelaufen</span>
+            </p>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

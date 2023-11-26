@@ -1,0 +1,8 @@
+rootProject.name = 'de.hhu.propra.chicken'
+include 'chicken_spring'
+include 'chicken_domain'
+include 'chicken_application'
+include 'chicken_adapter_web'
+include 'chicken_adapter_db'
+include 'chicken_adapter_lsfid'
+

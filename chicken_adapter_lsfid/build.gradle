@@ -1,0 +1,25 @@
+plugins {
+    id 'org.springframework.boot' version '2.6.4'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+}
+
+dependencies {
+    implementation project(':chicken_domain')
+    implementation project(':chicken_application')
+
+    implementation 'net.sourceforge.htmlunit:htmlunit:2.58.0' // downgraded because of https://github.com/HtmlUnit/htmlunit/issues/457
+    implementation 'org.springframework.boot:spring-boot-starter'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+bootJar {
+    enabled = false
+}
+
+bootRun {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}

@@ -1,0 +1,33 @@
+rollen:
+  tutoren: fnellen
+  organisatoren: fnellen
+
+praktikumszeitraum:
+  praktikumsstart: 2022-03-07
+  praktikumsende: 2022-03-25
+
+spring:
+  flyway:
+    schemas: chicken
+    create-schemas: true
+    url: jdbc:mariadb://${DB_HOST:localhost}:3306
+    user: ${DB_USER:root}
+    password: ${MARIADB_ROOT_PASSWORD:iamgroot}
+  datasource:
+    url: jdbc:mariadb://${DB_HOST:localhost}:3306/chicken
+    username: ${DB_USER:root}
+    password: ${MARIADB_ROOT_PASSWORD:iamgroot}
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: ${CLIENT_ID}
+            client-secret: ${CLIENT_SECRET}
+            authorization-grant-type: authorization_code
+            scope: user
+
+        provider:
+          github:
+            authorization-uri: https://github.com/login/oauth/authorize
+            token-uri: https://github.com/login/oauth/access_token
